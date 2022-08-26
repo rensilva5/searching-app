@@ -1,14 +1,27 @@
 import logo from './logo.svg';
 import './App.css';
 import JSONDATA from './MOCK_DATA.json'
+import { useState } from 'react'
 
 function App() {
+
+  const [searchName, setSearchName] = useState('')
   return (
     <div className="App">
-      <input type="text" placeholder="Search for ..." />
-      {JSONDATA.map((val, key)=> {
+      <input type="text" placeholder="Search for ..." onChange={(event)=> {
+        setSearchName(event.target.value)
+      }}/>
+      {JSONDATA.filter((val) => {
+        if (searchName == "") {
+          return val
+        }else if (val.first_name.toLowerCase().includes(searchName.toLowerCase())) {
+          return val
+        }
+      }).map((val, key) => {
         return (
-        <div className='user' key={key}> <p>{val.first_name} </p> </div>
+        <div className='user' key={key}>
+          <p>{val.first_name} </p>
+          </div>
         )
       })}
     </div>
